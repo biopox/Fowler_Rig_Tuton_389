@@ -15,4 +15,7 @@ Benjamin Fowler &amp; Christian Tuton NMT CSE 389 Project
     d. yes or maybe a viewing room with a starie sky
     e. Imperial 2 class Star Destroyer
     f. Chancellor Palpatine, Darth Vader, Executor Class Star Destroyer, At-At walker
+    
+2/7/2018
+  Rig has been joined to the party
   
