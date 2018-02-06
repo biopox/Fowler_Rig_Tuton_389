@@ -1,4 +1,4 @@
-# Fowler_Tuton_389
+# Fowler_Rig_Tuton_389
 Benjamin Fowler &amp; Christian Tuton NMT CSE 389 Project
 
 1/26/2018
