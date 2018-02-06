@@ -1,5 +1,5 @@
-# Fowler_Rig_Tuton_389
-Benjamin Fowler &amp; Christian Tuton NMT CSE 389 Project
+# Fowler_Robinson_Tuton_389
+Benjamin Fowler &amp; Riggon Robinson &amp; Christian Tuton NMT CSE 389 Project
 
 1/26/2018
   Both have setup windows enviroments (visual studios) of open GL based uppon the guide: https://learnopengl.com/
@@ -17,5 +17,5 @@ Benjamin Fowler &amp; Christian Tuton NMT CSE 389 Project
     f. Chancellor Palpatine, Darth Vader, Executor Class Star Destroyer, At-At walker
     
 2/7/2018
-  Rig has been joined to the party
+  Robinson has been joined to the party
   
