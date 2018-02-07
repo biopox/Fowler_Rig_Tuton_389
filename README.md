@@ -17,5 +17,5 @@ Benjamin Fowler &amp; Riggon Robinson &amp; Christian Tuton NMT CSE 389 Project
     f. Chancellor Palpatine, Darth Vader, Executor Class Star Destroyer, At-At walker
     
 2/7/2018
-  Robinson has been to the party
+  Robinson has joined the party
   
