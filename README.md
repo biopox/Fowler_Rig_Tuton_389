@@ -18,4 +18,7 @@ Benjamin Fowler &amp; Riggon Robinson &amp; Christian Tuton NMT CSE 389 Project
     
 2/7/2018
   Robinson has joined the party
+ 
+2/11/2018
+  Basic outline of museum uploaded
   
