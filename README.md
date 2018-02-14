@@ -22,3 +22,10 @@ Benjamin Fowler &amp; Riggon Robinson &amp; Christian Tuton NMT CSE 389 Project
 2/11/2018
   Basic outline of museum uploaded
   
+2/14/2018
+  As the apparent de facto group lead, Ben has delagated the following to be due 2/20/18: see refferance https://vignette.wikia.nocookie.net/starwars/images/d/dd/Vadersquest_throneroom.jpg/revision/latest?cb=20130415015447
+  
+  Christian: Make a stair case up to the dais.
+  
+  Riggon: Make the base of the entry way hall curved
+  
