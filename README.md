@@ -29,3 +29,5 @@ Benjamin Fowler &amp; Riggon Robinson &amp; Christian Tuton NMT CSE 389 Project
   
   Riggon: Make the base of the entry way hall curved
   
+2/15/2018
+  More details added by Christian and Riggon
