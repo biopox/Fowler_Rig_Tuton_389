@@ -1,6 +1,9 @@
 # Fowler_Robinson_Tuton_389
 Benjamin Fowler &amp; Riggon Robinson &amp; Christian Tuton NMT CSE 389 Project
 
+2/28/2018
+  Uploaded an untested blender model loader .cpp file, courtesy of opengl-tutorial.org
+
 2/15/2018
   More details added by Christian and Riggon. Changed newest entries to the top of the readme.
 
