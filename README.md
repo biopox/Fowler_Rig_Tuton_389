@@ -1,6 +1,9 @@
 # Fowler_Robinson_Tuton_389
 Benjamin Fowler &amp; Riggon Robinson &amp; Christian Tuton NMT CSE 389 Project
 
+3/8/2018
+  Little progress in the last week due to midterms for other classes, everyone's springbreak homeowork is to get a working .obj loader up and functional.
+
 2/28/2018
   Uploaded an untested blender model loader .cpp file, courtesy of opengl-tutorial.org
 
