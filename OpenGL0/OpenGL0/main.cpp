@@ -1,4 +1,8 @@
+#define GLEW_STATIC
+#include <Windows.h>
+
 #include <glad/glad.h>
+//#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <iomanip>
@@ -13,7 +17,7 @@ bool loadOBJ(const char * path);
 
 // settings
 const unsigned int SCR_WIDTH = 1200;
-const unsigned int SCR_HEIGHT = 1200;
+const unsigned int SCR_HEIGHT = 600;
 
 const char *vertexShaderSource = "#version 330 core\n"
 "layout (location = 0) in vec3 aPos;\n"
@@ -248,42 +252,29 @@ int cube_win()
 	// set up vertex data (and buffer(s)) and configure vertex attributes
 	// ------------------------------------------------------------------
 	float vertices[] = {
-		-0.5,-0.5,-0.5, // triangle 1 : begin
-		-0.5,-0.5, -0.5,
-		-0.5, 0.5, -0.5, // triangle 1 : end
-		0.5, 0.5,-1.5, // triangle 2 : begin
-		-0.5,-0.5,-1.5,
-		-0.5, 0.5,-1.5, // triangle 2 : end
-		0.5,-0.5, -0.5,
-		-0.5,-0.5,-1.5,
-		0.5,-0.5,-1.5,
-		0.5, 0.5,-1.5,
-		0.5,-0.5,-1.5,
-		-0.5,-0.5,-1.5,
-		-0.5,-0.5,-1.5,
-		-0.5, 0.5, -0.5,
-		-0.5, 0.5,-1.5,
-		0.5,-0.5, -0.5,
-		-0.5,-0.5, -0.5,
-		-0.5,-0.5,-1.5,
-		-0.5, 0.5, -0.5,
-		-0.5,-0.5, -0.5,
-		0.5,-0.5, -0.5,
-		0.5, 0.5, -0.5,
-		0.5,-0.5,-1.5,
-		0.5, 0.5,-1.5,
-		0.5,-0.5,-1.5,
-		0.5, 0.5, -0.5,
-		0.5,-0.5, -0.5,
-		0.5, 0.5, -0.5,
-		0.5, 0.5,-1.5,
-		-0.5, 0.5,-1.5,
-		0.5, 0.5, -0.5,
-		-0.5, 0.5,-1.5,
-		-0.5, 0.5, -0.5,
-		0.5, 0.5, -0.5,
-		-0.5, 0.5, -0.5,
-		0.5,-0.5, -0.5
+		-0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f, //back bot left
+		0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 1.0f, //back bot right
+		-0.5f, 0.5f, -0.5f, 1.0f, 0.0f, 1.0f, //back top left
+		0.5f, 0.5f, -0.5f, 0.0f, 0.0f, 0.0f, //back top right
+		-0.5f, -0.5f, 0.5f, 1.0f, 0.0f, 0.0f, //front bot left
+		0.5f, -0.5f, 0.5f, 1.0f, 1.0f, 0.0f, //front bot right
+		-0.5f, 0.5f, 0.5f, 1.0f, 1.0f, 1.0f, //front top left
+		0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f //front top right
+	};
+
+	GLuint element[] = {
+		2, 0, 4,
+		2, 0, 1,
+		4, 0, 1,
+		2, 6, 4,
+		2, 3, 1,
+		1, 5, 4,
+		3, 2, 6,
+		3, 7, 6,
+		3, 7, 5,
+		3, 1, 5,
+		4, 6, 7,
+		4, 5, 7
 	};
 
 	unsigned int VBO, VAO;
@@ -307,7 +298,7 @@ int cube_win()
 
 
 	// uncomment this call to draw in wireframe polygons.
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	// render loop
 	// -----------
@@ -325,7 +316,7 @@ int cube_win()
 		// draw our first triangle
 		glUseProgram(shaderProgram);
 		glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
-		glDrawArrays(GL_TRIANGLES, 0, 36);
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 		// glBindVertexArray(0); // no need to unbind it every time 
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
