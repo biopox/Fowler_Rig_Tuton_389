@@ -1,6 +1,13 @@
 # Fowler_Robinson_Tuton_389
 Benjamin Fowler &amp; Riggon Robinson &amp; Christian Tuton NMT CSE 389 Project
 
+3/21/2018
+  Due to apparent lack of group progress over spring break, Fowler has instituted an authoritative regime for the rest of the semister. Current tasks, due the morning of 3/26/2018, are as follows:
+  
+  Tuton: Create a C++ Function that reads in the an obj file and separates them on prefix, as of right now I am mostly interested in the vectors https://en.wikipedia.org/wiki/Wavefront_.obj_file#File_format, save it in a vector variable. 
+
+  Robinson: Due to the more distant and hard to co-op you are now incharge of our obj file; that is keeping the blender and obj files up to date on git. Your minimum task for this week is to set textures on the floor ceiling, walls, stairs, and dais. Bonus objective, making 4 frames and placing them in the throne room area.
+
 3/8/2018
   Little progress in the last week due to midterms for other classes, everyone's springbreak homeowork is to get a working .obj loader up and functional.
 
