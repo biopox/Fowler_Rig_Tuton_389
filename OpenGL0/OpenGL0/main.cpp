@@ -1,8 +1,8 @@
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
 #include <iostream>
 #include <iomanip>
 #include <fstream>
+#include "Model.h"
+#include "Camera.h"
 
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -13,7 +13,7 @@ bool loadOBJ(const char * path);
 
 // settings
 const unsigned int SCR_WIDTH = 1200;
-const unsigned int SCR_HEIGHT = 1200;
+const unsigned int SCR_HEIGHT = 600;
 
 const char *vertexShaderSource = "#version 330 core\n"
 "layout (location = 0) in vec3 aPos;\n"
@@ -46,8 +46,8 @@ int triangle_win()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-														 // glfw window creation
-														 // --------------------
+	// glfw window creation
+	// --------------------
 	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Fowler_Robinson_Tuton Triangle", NULL, NULL);
 	if (window == NULL)
 	{
@@ -67,7 +67,7 @@ int triangle_win()
 	}
 
 
-	// build and compile our shader program
+	// build and compile shader program
 	// ------------------------------------
 	// vertex shader
 	int vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -286,6 +286,8 @@ int cube_win()
 		0.5,-0.5, -0.5
 	};
 
+	int asize = 36;
+
 	unsigned int VBO, VAO;
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
@@ -309,6 +311,8 @@ int cube_win()
 	// uncomment this call to draw in wireframe polygons.
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
+	Camera cam(0.0f, 5.0f, -2.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+
 	// render loop
 	// -----------
 	while (!glfwWindowShouldClose(window))
@@ -322,7 +326,7 @@ int cube_win()
 		glClearColor(0.2f, 0.2f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		// draw our first triangle
+		// draw our triangles
 		glUseProgram(shaderProgram);
 		glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
 		glDrawArrays(GL_TRIANGLES, 0, 36);
@@ -332,6 +336,8 @@ int cube_win()
 		// -------------------------------------------------------------------------------
 		glfwSwapBuffers(window);
 		glfwPollEvents();
+
+		
 	}
 
 	// optional: de-allocate all resources once they've outlived their purpose:
@@ -366,6 +372,6 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 bool loadOBJ(const char * path) {
 
 
-	
+
 	return true;
 }

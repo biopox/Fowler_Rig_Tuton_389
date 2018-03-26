@@ -8,11 +8,12 @@
 #include <map>
 #include <vector>
 
-#include <glm/glm.hpp>
+#include <glm\glm.hpp>
 #include <glm\gtc\matrix_transform.hpp>
-#include <gl\GL.h>
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 #include <gl\GLU.h>
-#include <GL\glew.h>
+#include <gl\GL.h>
 #include <assimp\Importer.hpp>
 #include <assimp\scene.h>
 #include <assimp\postprocess.h>
