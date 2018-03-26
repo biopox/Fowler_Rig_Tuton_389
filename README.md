@@ -1,6 +1,9 @@
 # Fowler_Robinson_Tuton_389
 Benjamin Fowler &amp; Riggon Robinson &amp; Christian Tuton NMT CSE 389 Project
 
+3/26/2018
+  Bacics of obj loader in, obj has begining of textures.
+
 3/21/2018
   Due to apparent lack of group progress over spring break, Fowler has instituted an authoritative regime for the rest of the semister. Current tasks, due the morning of 3/26/2018, are as follows:
   
