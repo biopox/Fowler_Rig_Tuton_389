@@ -15,22 +15,28 @@ bool loadOBJ(const char * path);
 const unsigned int SCR_WIDTH = 1200;
 const unsigned int SCR_HEIGHT = 600;
 
+
 const char *vertexShaderSource = "#version 330 core\n"
 "layout (location = 0) in vec3 aPos;\n"
+"layout (location = 1) in vec3 aColor;\n"
+"out vec3 ourColor;\n"
 "void main()\n"
 "{\n"
-"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+"   gl_Position = vec4(aPos, 1.0);\n"
+"   ourColor = aColor;\n"
 "}\0";
+
 const char *fragmentShaderSource = "#version 330 core\n"
 "out vec4 FragColor;\n"
+"in vec3 ourColor;\n"
 "void main()\n"
 "{\n"
-"   FragColor = vec4(0.6f, 0.6f, 0.2f, 1.0f);\n"
+"   FragColor = vec4(ourColor, 1.0f);\n"
 "}\n\0";
 
 int main() {
-	cube_win();
-	//triangle_win();
+	//cube_win();
+	triangle_win();
 	//printf("woot\n");
 	//loadOBJ("Cube.obj");
 	//Sleep(3000);
@@ -111,10 +117,9 @@ int triangle_win()
 	// set up vertex data (and buffer(s)) and configure vertex attributes
 	// ------------------------------------------------------------------
 	float vertices[] = {
-		-0.5f, -0.5f, 0.0f, // left  
-		0.5f, -0.5f, 0.0f, // right 
-		0.5f,  0.5f, 0.0f,  // top
-		-0.5f, 0.5f, 0.0f
+		-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,// left  
+		0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,// right 
+		0.5f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f// top
 	};
 
 	unsigned int VBO, VAO;
@@ -126,8 +131,11 @@ int triangle_win()
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
+
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(1);
 
 	// note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -250,14 +258,14 @@ int cube_win()
 	// set up vertex data (and buffer(s)) and configure vertex attributes
 	// ------------------------------------------------------------------
 	float vertices[] = {
-		0.5f,0.5f, 0.5f, // 0: Top Front Right
-		0.5f,-0.5f, 0.5f, // 1: Bot Front Right
-		-0.5f, -0.5f, 0.5f, // 2: Bot Front Left
-		-0.5f, 0.5f, 0.5f, // 3: Top Front Left
-		0.5f,0.5f, -0.5f, // 4: Top Back Right
-		0.5f,-0.5f, -0.5f, // 5: Bot Back Right
-		-0.5f, -0.5f, -0.5f, // 6: Bot Back Left
-		-0.5f, 0.5f, -0.5f // 7: Top Back Left
+		0.5f,0.5f, 0.5f, 1.0f, 0.0f, 0.0f,// 0: Top Front Right
+		0.5f,-0.5f, 0.5f, 0.0f, 1.0f, 0.0f,// 1: Bot Front Right
+		-0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f,// 2: Bot Front Left
+		-0.5f, 0.5f, 0.5f, 1.0f, 1.0f, 0.0f,// 3: Top Front Left
+		0.5f,0.5f, -0.5f, 1.0f, 0.0f, 0.0f,// 4: Top Back Right
+		0.5f,-0.5f, -0.5f, 0.0f, 1.0f, 0.0f,// 5: Bot Back Right
+		-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 1.0f,// 6: Bot Back Left
+		-0.5f, 0.5f, -0.5f, 1.0f, 1.0f, 0.0f// 7: Top Back Left
 	};
 	unsigned int indices[] = {
 		0, 1, 3,
@@ -290,7 +298,11 @@ int cube_win()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	//vertex's vertex
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+	//color vertex
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(0);
 
 	// note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
