@@ -35,8 +35,8 @@ const char *fragmentShaderSource = "#version 330 core\n"
 "}\n\0";
 
 int main() {
-	cube_win();
-	//triangle_win();
+	//cube_win();
+	triangle_win();
 	//printf("woot\n");
 	//loadOBJ("Cube.obj");
 	//Sleep(3000);
