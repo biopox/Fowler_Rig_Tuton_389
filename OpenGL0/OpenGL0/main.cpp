@@ -30,6 +30,7 @@ const char *fragmentShaderSource = "#version 330 core\n"
 
 int main() {
 	cube_win();
+	//triangle_win();
 	//printf("woot\n");
 	//loadOBJ("Cube.obj");
 	//Sleep(3000);
@@ -245,57 +246,49 @@ int cube_win()
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
 
+
 	// set up vertex data (and buffer(s)) and configure vertex attributes
 	// ------------------------------------------------------------------
 	float vertices[] = {
-		-0.5,-0.5,-0.5, // triangle 1 : begin
-		-0.5,-0.5, -0.5,
-		-0.5, 0.5, -0.5, // triangle 1 : end
-		0.5, 0.5,-1.5, // triangle 2 : begin
-		-0.5,-0.5,-1.5,
-		-0.5, 0.5,-1.5, // triangle 2 : end
-		0.5,-0.5, -0.5,
-		-0.5,-0.5,-1.5,
-		0.5,-0.5,-1.5,
-		0.5, 0.5,-1.5,
-		0.5,-0.5,-1.5,
-		-0.5,-0.5,-1.5,
-		-0.5,-0.5,-1.5,
-		-0.5, 0.5, -0.5,
-		-0.5, 0.5,-1.5,
-		0.5,-0.5, -0.5,
-		-0.5,-0.5, -0.5,
-		-0.5,-0.5,-1.5,
-		-0.5, 0.5, -0.5,
-		-0.5,-0.5, -0.5,
-		0.5,-0.5, -0.5,
-		0.5, 0.5, -0.5,
-		0.5,-0.5,-1.5,
-		0.5, 0.5,-1.5,
-		0.5,-0.5,-1.5,
-		0.5, 0.5, -0.5,
-		0.5,-0.5, -0.5,
-		0.5, 0.5, -0.5,
-		0.5, 0.5,-1.5,
-		-0.5, 0.5,-1.5,
-		0.5, 0.5, -0.5,
-		-0.5, 0.5,-1.5,
-		-0.5, 0.5, -0.5,
-		0.5, 0.5, -0.5,
-		-0.5, 0.5, -0.5,
-		0.5,-0.5, -0.5
+		0.5f,0.5f, 0.5f, // 0: Top Front Right
+		0.5f,-0.5f, 0.5f, // 1: Bot Front Right
+		-0.5f, -0.5f, 0.5f, // 2: Bot Front Left
+		-0.5f, 0.5f, 0.5f, // 3: Top Front Left
+		0.5f,0.5f, -0.5f, // 4: Top Back Right
+		0.5f,-0.5f, -0.5f, // 5: Bot Back Right
+		-0.5f, -0.5f, -0.5f, // 6: Bot Back Left
+		-0.5f, 0.5f, -0.5f // 7: Top Back Left
+	};
+	unsigned int indices[] = {
+		0, 1, 3,
+		1, 2, 3,
+		3, 0, 4,
+		4, 7, 4,
+		3, 2, 6,
+		3, 7, 6,
+		1, 5, 0,
+		4, 5, 0,
+		5, 4, 6,
+		7, 4, 6,
+		1, 5, 2,
+		6, 5, 2
 	};
 
-	int asize = 36;
+	int asize = 12;
 
-	unsigned int VBO, VAO;
+	unsigned int VBO, VAO, EBO;
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
+	glGenBuffers(1, &EBO);
+
 	// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
 	glBindVertexArray(VAO);
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
@@ -303,15 +296,17 @@ int cube_win()
 	// note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
 	// You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
 	// VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
 	glBindVertexArray(0);
 
 
 	// uncomment this call to draw in wireframe polygons.
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-	Camera cam(0.0f, 5.0f, -2.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+	//Camera cam(0.0f, 5.0f, -2.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f);
 
 	// render loop
 	// -----------
@@ -329,7 +324,8 @@ int cube_win()
 		// draw our triangles
 		glUseProgram(shaderProgram);
 		glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
-		glDrawArrays(GL_TRIANGLES, 0, 36);
+		//glDrawArrays(GL_TRIANGLES, 0, asize);
+		glDrawElements(GL_TRIANGLES, asize, GL_UNSIGNED_INT, 0);
 		// glBindVertexArray(0); // no need to unbind it every time 
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
@@ -344,6 +340,7 @@ int cube_win()
 	// ------------------------------------------------------------------------
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
+	glDeleteBuffers(1, &EBO);
 
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	// ------------------------------------------------------------------
