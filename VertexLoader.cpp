@@ -17,7 +17,8 @@ int main()
 	return 0;
 }*/
 
-bool loadOBJ(string path, float *triangles, float scale)
+// Returns size of the array allocated in triangles
+int loadOBJ(string path, float *triangles, float scale)
 {
 	// Open filestream
 	string line;
@@ -28,7 +29,7 @@ bool loadOBJ(string path, float *triangles, float scale)
 	// Check if file was successfully opened
 	if (!model.is_open()) {
 		cout << "Cannot open file";
-		return false;
+		return -1;
 	}
 
 	// Check if file is open
@@ -84,5 +85,5 @@ bool loadOBJ(string path, float *triangles, float scale)
 	} */
 
 	model.close();
-	return true;
+	return size;
 }
