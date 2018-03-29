@@ -1,6 +1,9 @@
 # Fowler_Robinson_Tuton_389
 Benjamin Fowler &amp; Riggon Robinson &amp; Christian Tuton NMT CSE 389 Project
 
+3/28/2018
+  obj loader updated to new format, shaders 100% working now.
+
 3/26/2018
   Bacics of obj loader in, obj has begining of textures.
 
