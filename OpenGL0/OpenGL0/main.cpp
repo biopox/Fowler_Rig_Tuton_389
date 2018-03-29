@@ -35,8 +35,8 @@ const char *fragmentShaderSource = "#version 330 core\n"
 "}\n\0";
 
 int main() {
-	//cube_win();
-	triangle_win();
+	cube_win();
+	//triangle_win();
 	//printf("woot\n");
 	//loadOBJ("Cube.obj");
 	//Sleep(3000);
@@ -303,7 +303,7 @@ int cube_win()
 	glEnableVertexAttribArray(0);
 	//color vertex
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
 
 	// note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -318,7 +318,7 @@ int cube_win()
 	// uncomment this call to draw in wireframe polygons.
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-	//Camera cam(0.0f, 5.0f, -2.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f);
+	Camera cam(0.0f, 5.0f, -2.0f, 0.0f, -1.0f, -1.0f, 0.0f, 0.0f);
 
 	// render loop
 	// -----------
