@@ -1,20 +1,13 @@
-#include <iostream>
-#include <string>
-#include <fstream>
-#include <sstream>
-#include <vector>
-#include <iterator>
-#include <string.h>
+#include "Model.h";
 
 using namespace std;
 /*bool loadOBJ(string path, float *triangles, float scale);
-
 int main()
 {
-	float *triangles = NULL;
-	loadOBJ("simpleCube.obj", triangles, 0.5);
-	free(triangles);
-	return 0;
+float *triangles = NULL;
+loadOBJ("simpleCube.obj", triangles, 0.5);
+free(triangles);
+return 0;
 }*/
 
 // Returns size of the array allocated in triangles
@@ -64,7 +57,7 @@ int loadOBJ(string path, float *triangles, float scale)
 
 	// Calculate the number of floats needed for vector array
 	int size = faces.size() * 3;
-	triangles = (float *) malloc(sizeof(float) * size);
+	triangles = (float *)malloc(sizeof(float) * size);
 
 	// Fill triangle array
 	int index;
@@ -72,16 +65,16 @@ int loadOBJ(string path, float *triangles, float scale)
 	for (int v : faces) {
 		index = (v - 1) * 3;
 		triangles[i] = vertices[index] * scale;
-		triangles[i+1] = vertices[index+1] * scale;
-		triangles[i+2] = vertices[index+2] * scale;
+		triangles[i + 1] = vertices[index + 1] * scale;
+		triangles[i + 2] = vertices[index + 2] * scale;
 		i += 3;
 	}
 
 	/* Print triangles
 	int tri;
 	for (i = 0; i < size; i+= 3) {
-		tri = (i / 3) + 1;
-		cout << "Triangle " << tri << ": <" << triangles[i] << "," << triangles[i + 1] << "," << triangles[i + 2] << ">\n";
+	tri = (i / 3) + 1;
+	cout << "Triangle " << tri << ": <" << triangles[i] << "," << triangles[i + 1] << "," << triangles[i + 2] << ">\n";
 	} */
 
 	model.close();
