@@ -1,10 +1,13 @@
 #pragma once
 #include<Windows.h>
 
+#include <iostream>
 #include <string>
 #include <fstream>
 #include <sstream>
-#include <iostream>
+#include <vector>
+#include <iterator>
+#include <string.h>
 #include <map>
 #include <vector>
 
@@ -21,5 +24,5 @@
 
 
 using namespace std;
-
+int loadOBJ(string path, float *triangles, float scale);
 GLint TextureFromFile(const char *path, string directory);
