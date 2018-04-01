@@ -1,6 +1,5 @@
 #pragma once
 #include<Windows.h>
-#include<stb_image.h> //can't import for some reason
 
 #include <iostream>
 #include <string>
