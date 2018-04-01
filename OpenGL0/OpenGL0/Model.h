@@ -1,5 +1,6 @@
 #pragma once
 #include<Windows.h>
+#include<stb_image.h> //can't import for some reason
 
 #include <iostream>
 #include <string>
@@ -11,8 +12,9 @@
 #include <map>
 #include <vector>
 
-#include <glm\glm.hpp>
-#include <glm\gtc\matrix_transform.hpp>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <gl\GLU.h>
