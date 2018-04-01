@@ -3,6 +3,7 @@
 #include <fstream>
 #include "Model.h"
 #include "Camera.h"
+#include "Shader.h"
 
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -14,7 +15,6 @@ bool loadOBJ(const char * path);
 // settings
 const unsigned int SCR_WIDTH = 1200;
 const unsigned int SCR_HEIGHT = 600;
-
 
 const char *vertexShaderSource = "#version 330 core\n"
 "layout (location = 0) in vec3 aPos;\n"
@@ -192,6 +192,7 @@ int cube_win()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	//int asize = 0;
 
 	// glfw window creation
 	// --------------------
@@ -216,56 +217,24 @@ int cube_win()
 
 	// build and compile our shader program
 	// ------------------------------------
-	// vertex shader
-	int vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-	glCompileShader(vertexShader);
-	// check for shader compile errors
-	int success;
-	char infoLog[512];
-	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-	if (!success)
-	{
-		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
-	}
-	// fragment shader
-	int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-	glCompileShader(fragmentShader);
-	// check for shader compile errors
-	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-	if (!success)
-	{
-		glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
-	}
-	// link shaders
-	int shaderProgram = glCreateProgram();
-	glAttachShader(shaderProgram, vertexShader);
-	glAttachShader(shaderProgram, fragmentShader);
-	glLinkProgram(shaderProgram);
-	// check for linking errors
-	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-	if (!success) {
-		glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
-	}
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
+	Shader shade("5.1.transform.vm", "5.1.transform.fs");
 
 
 	// set up vertex data (and buffer(s)) and configure vertex attributes
 	// ------------------------------------------------------------------
+	//int asize = 12;
+	//float *vertices = NULL;
+	int asize = 12;
+	//asize = loadOBJ("Simple_Cube.obj", vertices, 1);
 	float vertices[] = {
-		0.5f,0.5f, 0.5f, 1.0f, 0.0f, 0.0f,// 0: Top Front Right
-		0.5f,-0.5f, 0.5f, 0.0f, 1.0f, 0.0f,// 1: Bot Front Right
-		-0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f,// 2: Bot Front Left
-		-0.5f, 0.5f, 0.5f, 1.0f, 1.0f, 0.0f,// 3: Top Front Left
-		0.5f,0.5f, -0.5f, 1.0f, 0.0f, 0.0f,// 4: Top Back Right
-		0.5f,-0.5f, -0.5f, 0.0f, 1.0f, 0.0f,// 5: Bot Back Right
-		-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 1.0f,// 6: Bot Back Left
-		-0.5f, 0.5f, -0.5f, 1.0f, 1.0f, 0.0f// 7: Top Back Left
+		0.5f, 0.5f, 0.5f, 1.0f, 1.0f, // 0: Top Front Right
+		0.5f, -0.5f, 0.5f, 1.0f, 0.0f,// 1: Bot Front Right
+		-0.5f, -0.5f, 0.5f, 0.0f, 0.0f,// 2: Bot Front Left
+		-0.5f, 0.5f, 0.5f, 0.0f, 1.0f,// 3: Top Front Left
+		0.5f, 0.5f, -0.5f, 1.0f, 1.0f,// 4: Top Back Right
+		0.5f, -0.5f, -0.5f, 1.0f, 0.0f,// 5: Bot Back Right
+		-0.5f, -0.5f, -0.5f, 0.0f, 0.0f,// 6: Bot Back Left
+		-0.5f, 0.5f, -0.5f, 0.0f, 1.0f // 7: Top Back Left
 	};
 	unsigned int indices[] = {
 		0, 1, 3,
@@ -282,9 +251,7 @@ int cube_win()
 		6, 5, 2
 	};
 
-	int asize = 12;
-
-	unsigned int VBO, VAO, EBO;
+	unsigned int VAO, VBO, EBO;
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
 	glGenBuffers(1, &EBO);
@@ -299,26 +266,43 @@ int cube_win()
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
 	//vertex's vertex
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 	//color vertex
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
 
+	//textures
+	unsigned int texture1, texture2;
+
+	glGenTextures(1, &texture1);
+	glBindTexture(GL_TEXTURE_2D, texture1);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	int w, h, nr;
+	stbi_set_flip_vertically_on_load(true);
+
+
 	// note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	//glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	// You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
 	// VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
-	glBindVertexArray(0);
+	//glBindVertexArray(0);
 
 
 	// uncomment this call to draw in wireframe polygons.
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
+	shade.use();
+
 	Camera cam(0.0f, 5.0f, -2.0f, 0.0f, -1.0f, -1.0f, 0.0f, 0.0f);
+	//Othographic view in driver. 
 
 	// render loop
 	// -----------
@@ -333,8 +317,18 @@ int cube_win()
 		glClearColor(0.2f, 0.2f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		// draw our triangles
-		glUseProgram(shaderProgram);
+		//create transformations
+		glm::mat4 transform;
+		transform = glm::translate(transform, glm::vec3(0.0f, -0.5f, 0.0f));
+		transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
+
+		//set transform on the matrix
+		shade.use();
+		unsigned int transformLoc = glGetUniformLocation(shade.ID, "transform");
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
+
+		// render triangles
+		//glUseProgram(shaderProgram);
 		glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
 		//glDrawArrays(GL_TRIANGLES, 0, asize);
 		glDrawElements(GL_TRIANGLES, asize, GL_UNSIGNED_INT, 0);
@@ -344,8 +338,6 @@ int cube_win()
 		// -------------------------------------------------------------------------------
 		glfwSwapBuffers(window);
 		glfwPollEvents();
-
-		
 	}
 
 	// optional: de-allocate all resources once they've outlived their purpose:
@@ -375,12 +367,4 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 	// make sure the viewport matches the new window dimensions; note that width and 
 	// height will be significantly larger than specified on retina displays.
 	glViewport(0, 0, width, height);
-}
-
-
-bool loadOBJ(const char * path) {
-
-
-
-	return true;
 }
