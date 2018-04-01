@@ -1,9 +1,18 @@
-#include <iostream>
+#define STB_IMAGE_IMPLEMENTATION
+
 #include <iomanip>
 #include <fstream>
 #include "Model.h"
 #include "Camera.h"
 #include "Shader.h"
+#include "stb_image.h"
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <iostream>
 
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -275,6 +284,7 @@ int cube_win()
 	//textures
 	unsigned int texture1, texture2;
 
+	//text 1
 	glGenTextures(1, &texture1);
 	glBindTexture(GL_TEXTURE_2D, texture1);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -285,6 +295,40 @@ int cube_win()
 	int w, h, nr;
 	stbi_set_flip_vertically_on_load(true);
 
+	//link path to immage here
+	unsigned char *data = stbi_load("Fire.jpg", &w, &h, &nr, 0);
+	if (data)
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else
+	{
+		std::cout << "Fail to load texture" << std::endl;
+	}
+	stbi_image_free(data);
+
+	//text 2
+	glGenTextures(1, &texture2);
+	glBindTexture(GL_TEXTURE_2D, texture2);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+
+	//link path to immage here
+	data = stbi_load("Smashing.jpg", &w, &h, &nr, 0);
+	if (data)
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else
+	{
+		std::cout << "Fail to load texture" << std::endl;
+	}
+	stbi_image_free(data);
 
 	// note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
 	//glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -300,6 +344,8 @@ int cube_win()
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	shade.use();
+	shade.setInt("texture1", 0);
+	shade.setInt("texture2", 1);
 
 	Camera cam(0.0f, 5.0f, -2.0f, 0.0f, -1.0f, -1.0f, 0.0f, 0.0f);
 	//Othographic view in driver. 
@@ -316,6 +362,11 @@ int cube_win()
 		// ------
 		glClearColor(0.2f, 0.2f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, texture1);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, texture2);
 
 		//create transformations
 		glm::mat4 transform;
