@@ -1,6 +1,9 @@
 # Fowler_Robinson_Tuton_389
 Benjamin Fowler &amp; Riggon Robinson &amp; Christian Tuton NMT CSE 389 Project
 
+4/5/2018
+  Obj nearly finished, obj loader alot better, not quite finished. main.cpp mannaged to fail a sanity check, shaders still work, textures more of vertical lines though.
+
 3/28/2018
   obj loader updated to new format, shaders 100% working now.
 
