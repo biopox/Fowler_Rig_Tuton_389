@@ -2,20 +2,13 @@
 
 /* TODO
  * Add functionality for o line
- *  - name of object
- *  - path to texture
- *  - Have it return vector of models
+ *  - usemtl
+ *  - mtlib
+ *  - polylines
 */
 
-int main()
-{
-	OBJ model = loadOBJ("cube2.obj", 0.5);
-	printOBJ(model);
-	return 0;
-}
-
 // Returns size of the array allocated in triangles
-OBJ loadOBJ(string path, float scale)
+vector<OBJ> loadOBJ(string path, float scale)
 {
 	// Open filestream
 	string line;
@@ -32,6 +25,10 @@ OBJ loadOBJ(string path, float scale)
 		cout << "Cannot open file";
 		exit(-1);
 	}
+
+	// Set up vector
+	vector<OBJ> objects;
+	bool firstObject = true;
 
 	// Iterate line by line
 	while (getline(model, line)) {
@@ -123,77 +120,100 @@ OBJ loadOBJ(string path, float scale)
 			}
 			objModel.facesSize = i;
 		}
-	}
+		else if (header == "o ") {
 
+			// Push previous object on stack if not first time
+			if (!firstObject) {
+				objects.push_back(objModel);
+				OBJ newobj;
+				objModel = newobj;
+			}
+
+			// Get name of new object
+			for (string s : results) {
+				if (s == "o") continue;
+				objModel.name = s;
+			}
+			firstObject = false;
+		}
+	}
+	// Push last object
+	objects.push_back(objModel);
 	model.close();
-	return objModel;
+	return objects;
 }
 
-void printOBJ(OBJ obj) {
-	int i;
+void printOBJ(vector<OBJ> objects) {
+	
+	for (OBJ obj : objects) {
+		int i;
 
-	// Print header info
-	obj.verticesIncludeW ? (cout << "Vertices include W\n") : (cout << "Vertices do not include W\n");
-	obj.texturesIncludeW ? (cout << "Textures include W\n") : (cout << "Textures do not include W\n");
-	cout << "Facemode: " << obj.faceMode << "\n";
-	cout << "facesSize: " << obj.facesSize << "\n";
+		// Print name
+		cout << "###########\n" << obj.name << "\n######################\n\n";
+		// Print header info
+		obj.verticesIncludeW ? (cout << "Vertices include W\n") : (cout << "Vertices do not include W\n");
+		obj.texturesIncludeW ? (cout << "Textures include W\n") : (cout << "Textures do not include W\n");
+		cout << "Facemode: " << obj.faceMode << "\n";
+		cout << "facesSize: " << obj.facesSize << "\n";
 
-	// Set up increments correctly based on whether W is included in textures and vertices
-	int vincr = obj.verticesIncludeW ? 4 : 3;
-	int tincr = obj.texturesIncludeW ? 3 : 2;
+		// Set up increments correctly based on whether W is included in textures and vertices
+		int vincr = obj.verticesIncludeW ? 4 : 3;
+		int tincr = obj.texturesIncludeW ? 3 : 2;
 
-	// Print vertices
-	cout << "\nVertices:";
-	i = 0;
-	for (float f : obj.vertices) {
-		if ((i % vincr) == 0) cout << "\nv" << (i / vincr) + 1 << ": ";
-		cout << f << " ";
-		i++;
+		// Print vertices
+		cout << "\nVertices:";
+		i = 0;
+		for (float f : obj.vertices) {
+			if ((i % vincr) == 0) cout << "\nv" << (i / vincr) + 1 << ": ";
+			cout << f << " ";
+			i++;
+		}
+
+		// Print textures
+		cout << "\n\nTextures:";
+		i = 0;
+		for (float f : obj.textures) {
+			if ((i % tincr) == 0) cout << "\nvt" << (i / tincr) + 1 << ": ";
+			cout << f << " ";
+			i++;
+		}
+
+		// Print normals
+		cout << "\n\nNormals:";
+		i = 0;
+		for (float f : obj.normals) {
+			if ((i % 3) == 0) cout << "\nvn" << (i / 3) + 1 << ": ";
+			cout << f << " ";
+			i++;
+		}
+
+		// Print material information
+
+		// Print faces
+		cout << "\n\nFaces:";
+		i = 0;
+		for (int j : obj.faces) {
+			if ((i % obj.facesSize) == 0) cout << "\nf" << (i / obj.facesSize) + 1 << ": ";
+			cout << j << " ";
+			i++;
+		}
+
+		// Print face textures
+		cout << "\n\nFace textures:";
+		i = 0;
+		for (int j : obj.facesTexture) {
+			if ((i % obj.facesSize) == 0) cout << "\nft" << (i / obj.facesSize) + 1 << ": ";
+			cout << j << " ";
+			i++;
+		}
+
+		// Print face normals
+		cout << "\n\nFace normals:";
+		i = 0;
+		for (int j : obj.facesNormal) {
+			if ((i % obj.facesSize) == 0) cout << "\nfn" << (i / obj.facesSize) + 1 << ": ";
+			cout << j << " ";
+			i++;
+		}
 	}
-
-	// Print textures
-	cout << "\n\nTextures:";
-	i = 0;
-	for (float f : obj.textures) {
-		if ((i % tincr) == 0) cout << "\nvt" << (i / tincr) + 1 << ": ";
-		cout << f << " ";
-		i++;
-	}
-
-	// Print normals
-	cout << "\n\nNormals:";
-	i = 0;
-	for (float f : obj.normals) {
-		if ((i % 3) == 0) cout << "\nvn" << (i / 3) + 1 << ": ";
-		cout << f << " ";
-		i++;
-	}
-
-	// Print faces
-	cout << "\n\nFaces:";
-	i = 0;
-	for (int j : obj.faces) {
-		if ((i % obj.facesSize) == 0) cout << "\nf" << (i / obj.facesSize) + 1 << ": ";
-		cout << j << " ";
-		i++;
-	}
-
-	// Print face textures
-	cout << "\n\nFace textures:";
-	i = 0;
-	for (int j : obj.facesTexture) {
-		if ((i % obj.facesSize) == 0) cout << "\nft" << (i / obj.facesSize) + 1 << ": ";
-		cout << j << " ";
-		i++;
-	}
-
-	// Print face normals
-	cout << "\n\nFace normals:";
-	i = 0;
-	for (int j : obj.facesNormal) {
-		if ((i % obj.facesSize) == 0) cout << "\nfn" << (i / obj.facesSize) + 1 << ": ";
-		cout << j << " ";
-		i++;
-	}
-
 }
