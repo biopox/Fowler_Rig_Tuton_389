@@ -39,8 +39,10 @@ public:
 								// v, t:	1
 								// v, t, n: 2
 								// v, n:	3
+	string name;				// Name of object
 };
 
-OBJ loadOBJ(string path, float scale);
-void printOBJ(OBJ obj);
+vector<OBJ> loadOBJ(string path, float scale);
+void printOBJ(vector<OBJ> objects);
+
 GLint TextureFromFile(const char *path, string directory);
