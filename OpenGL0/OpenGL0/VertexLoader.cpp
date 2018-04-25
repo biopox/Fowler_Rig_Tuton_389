@@ -7,6 +7,15 @@
  *  - polylines
 */
 
+/*int main()
+{
+	vector<OBJ> models = loadOBJ("simpleCube.obj", 0.5);
+	//printOBJ(models);
+	float *arr = verticesToFloat(models[0]);
+	free(arr);
+	return 0;
+}*/
+
 // Returns size of the array allocated in triangles
 vector<OBJ> loadOBJ(string path, float scale)
 {
@@ -216,4 +225,31 @@ void printOBJ(vector<OBJ> objects) {
 			i++;
 		}
 	}
+}
+
+float *verticesToFloat(OBJ obj) {
+	// Calculate size
+	int arrSize = obj.vertices.size() * 3;
+	float *vertices = new float[arrSize];
+	int i = 0;
+	int j = 0;
+
+	int vincr = obj.verticesIncludeW ? 4 : 3;
+
+	// Populate vertices
+	for (int f : obj.faces) {
+		for (j = 0; j < vincr; j++) {
+			vertices[i+j] = obj.vertices[((f - 1) * vincr) + j];
+			//cout << " " << vertices[i+j];
+		}
+		/*if (((i % (vincr * obj.facesSize)) == ((vincr * obj.facesSize) - vincr)))
+			cout << "\n";
+		else
+			cout << ", ";
+		*/
+
+		i += vincr;
+	}
+
+	return vertices;
 }
