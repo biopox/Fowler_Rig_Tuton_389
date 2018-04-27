@@ -1,8 +1,11 @@
 # Fowler_Robinson_Tuton_389
 Benjamin Fowler &amp; Riggon Robinson &amp; Christian Tuton NMT CSE 389 Project
 
+4/25/2018
+  Little completed progress due to other classes being due first. Initial foray into integrating obj reader into the opengl loader.
+
 4/18/2018
-  3D rotation successfully working
+  3D rotation successfully working.
 
 4/11/2018
   Got immage roation and textures working.
