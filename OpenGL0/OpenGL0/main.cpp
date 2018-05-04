@@ -50,7 +50,7 @@ const char *fragmentShaderSource = "#version 330 core\n"
 
 int main() {
 	//texture_win(); //showing we can load textures
-	load_win();
+	load_win(); //showig we can read an obj
 	return 0;
 }
 
@@ -61,7 +61,6 @@ int load_win() {
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	// glfw window creation
-	// --------------------
 	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
 	if (window == NULL)
 	{
@@ -73,8 +72,7 @@ int load_win() {
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
 	printf("Sanity Check\n");
-	// glad: load all OpenGL function pointers
-	// ---------------------------------------
+	// glad load all OpenGL function pointers
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
 		std::cout << "Failed to initialize GLAD" << std::endl;
@@ -90,9 +88,11 @@ int load_win() {
 
 	printf("tower\n");
 
+
+
 	// set up vertex data (and buffer(s)) and configure vertex attributes
 	// ------------------------------------------------------------------
-	float vertices[] = {
+	/**float vertices[] = {
 		// positions          // texture coords
 		0.5f, 0.5f, 0.5f,		0.0f, 0.0f, //1
 		-0.5f, 0.5f, 0.5f,		1.0f, 0.0f, //2
@@ -102,14 +102,20 @@ int load_win() {
 	unsigned int indices[] = {
 		0, 1, 3, // first triangle
 		1, 2, 3  // second triangle
-	};
+	};*/
+
 
 	vector<OBJ> ourobjs = loadOBJ("Simple_Cube.obj", 1);
 	printOBJ(ourobjs);
+
+
+	float *vertices = getVerticesArray(ourobjs[0]); //wtf is an aggregate object
+	int *indices = getFacesArray(ourobjs[0]);
+
 	//float verticies[] = ourobjs[0];
 	//int indices[] = ourobjs;
 
-	int asize = 6;
+	int asize = 20;
 	unsigned int VBO, VAO, EBO;
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
@@ -124,7 +130,7 @@ int load_win() {
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
 	// position attribute
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 	// texture coord attribute
 	//glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
