@@ -1,6 +1,9 @@
 # Fowler_Robinson_Tuton_389
 Benjamin Fowler &amp; Riggon Robinson &amp; Christian Tuton NMT CSE 389 Project
 
+5/4/2018
+  Main loads objs now, glm doesn't like it. GL on final(s) tomorrow!!! *curls up like cat and sleeps*
+
 4/25/2018
   Little completed progress due to other classes being due first. Initial foray into integrating obj reader into the opengl loader.
 
