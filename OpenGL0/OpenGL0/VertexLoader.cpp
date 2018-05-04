@@ -6,16 +6,16 @@
  *  - mtlib
  *  - polylines
 */
-
-/*int main()
+/*
+int main()
 {
 	vector<OBJ> models = loadOBJ("simpleCube.obj", 0.5);
 	//printOBJ(models);
 	float *arr = verticesToFloat(models[0]);
 	free(arr);
 	return 0;
-}*/
-
+}
+*/
 // Returns size of the array allocated in triangles
 vector<OBJ> loadOBJ(string path, float scale)
 {
@@ -252,4 +252,16 @@ float *verticesToFloat(OBJ obj) {
 	}
 
 	return vertices;
+}
+
+float *getVerticesArray(OBJ obj) {
+	int arrSize = obj.vertices.size();
+	float *varray = new float[arrSize];
+	return varray;
+}
+
+int *getFacesArray(OBJ obj) {
+	int arrSize = obj.faces.size();
+	int *varray = new int[arrSize];
+	return varray;
 }
